@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emir Genç</title>
+    <link rel="stylesheet" href="proje_2.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#about").click(function(e){
+               e.preventDefault();
+               $(".about .content").slideToggle();
+            });
+            $("#projects").click(function (e) {
+             e.preventDefault();
+             $(".projects .content").slideToggle();
+            });
+            $("#skills").click(function(e){
+                e.preventDefault();
+                $(".skills .content").slideToggle();
+            });
+            $("#contact").click(function(e){
+                e.preventDefault();
+                $(".contact .content").slideToggle();
+            });
+            $("#mailto").click(function(e){
+                e.preventDefault();
+                $(".container").slideToggle();
+            });
+        });
+    </script>
+    <script src="server.js" >
+        $("#button").click(function(e){
+            
+            document.getElementById("sendMailForm").addEventListener("submit", async function (e) {
+        e.preventDefault(); // Sayfa yenilenmesini engelle
+
+        const email = document.getElementById("email").value();
+        const subject = document.getElementById("subject").value();
+        const message = document.getElementById("message").value();
+        const responseMessage = document.getElementById("responseMessage");
+
+        if (!email || !subject || !message) {
+          responseMessage.textContent = "Lütfen tüm alanları doldurun.";
+          responseMessage.style.color = "red";
+          return;
+        }
+
+        try {
+          // Sunucuya POST isteği gönder
+          const response = await fetch('server.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, subject, message }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            responseMessage.textContent = result.success || "Mail başarıyla gönderildi!";
+            responseMessage.style.color = "green";
+          } else {
+            responseMessage.textContent = result.error || "Mail gönderilirken bir hata oluştu.";
+            responseMessage.style.color = "red";
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          responseMessage.textContent = "Bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
+          responseMessage.style.color = "red";
+        }
+      });
+
+        });
+    </script>
+        
+</head>
+<body>
+    <header class="header">
+        <h1>EMİR GENÇ</h1>
+    <img src="cv.jpg" alt="" id="profile-img">    
+    <nav class="nav">
+        <ul id="ul-item-header">
+            <li id="li-item"><a href="#" id="about">Hakkımda</a></li>
+            <li id="li-item"><a href="#" id="projects">Projeler</a></li>
+            <li id="li-item"><a href="#" id="skills">Yetenekler</a></li>
+            <li id="li-item"><a href="#" id="contact">İletişim</a></li>
+            <li id="li-item"><a href="#" id="mailto">Mail Gönder</a></li>
+        </ul>
+    </nav>
+    </header>
+    <div class="container" style="display: none;">
+        <h2>Mail Gönder</h1>
+            <form  id="emailForm">
+                <label for="userEmail">Email Adresi :</label>
+                <input type="email" name="userEmail" id="userEmail" placeholder="Alıcının email adresi" required>
+
+                <label for="subject">Konu :</label>
+                <input type="text" id="subject" name="subject" placeholder="Konu : "required>
+
+                <label for="message">Mesaj :</label>
+                <textarea name="message" id="message" rows="6" placeholder="Mesajınızı Buraya Yazınız." required></textarea>
+
+                <button type="submit" id="button">Gönder</button>
+            </form>
+
+    </div>
+    
+    <div class="about">
+        <h2>Hakkımda</h2>
+        <div class="content" style="display: none;">
+            <p>Merhaba! Ben Emir Genç, bir Android uygulama geliştiricisiyim.</p>
+            <p>Mobil uygulama ve Java dili alanında çalışıyorum.</p>
+          </div>
+    </div>
+    <div class="projects">
+        <h2>Projeler</h2>
+        <div class="content" style="display: none;">
+          <ul class="project">
+            <li>To Do List App</li>
+            <li>Login Page</li>
+            <li>Weather App</li>
+          </ul>
+        </div>
+    </div>
+    <div class="skills">
+        <h2>Yetenekler</h2>
+        <div class="content" style="display: none;">
+          <ul>
+            <li>HTML & CSS</li>
+            <li>Java</li>
+            <li>Kotlin(Android)</li>
+          </ul>
+        </div>
+    </div>
+    <div class="contact">
+        
+            <h2>İletişim</h2>
+            <div class="content" style="display: none;">
+              <p>
+                Bana ulaşmak için
+                <a href="mailto:gencemir7@gmail.com">gencemir7@gmail.com</a>
+              </p>
+            </div>
+          
+    </div>
+    <footer class="footer">
+        <h3>© 2024 Emir Genç. Tüm Hakları Saklıdır.</h3>
+        <ul class="ul-item-footer">
+            <li>
+              <a href="https://www.linkedin.com/in/emirgen%C3%A7/" id="a-footer">
+                <img src="linkedin.png" alt="LinkedIn" />
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/emirgenc35">
+                <img src="github.png" alt="GitHub" />
+              </a>
+            </li>
+            <li>
+              <a href="mailto:gencemir7@gmail.com">
+                <img src="gmail.png" alt="Mail" />
+              </a>
+            </li>
+          </ul>
+    </footer>
+
+</body>
+</html>
